@@ -1,5 +1,7 @@
 package com.video.model;
 
+import java.util.List;
+
 import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
@@ -8,10 +10,13 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Builder;
 
 @Entity
 @Table(name = "users")
+@Builder
 public class User {
 
     @Id
@@ -30,6 +35,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "user")
+    private List<Rental> rentals;
+    
     public User() {}
 
     // Getters and setters
@@ -81,5 +89,14 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+	public List<Rental> getRentals() {
+		return rentals;
+	}
+
+	public void setRentals(List<Rental> rentals) {
+		this.rentals = rentals;
+	}
+    
 }
 

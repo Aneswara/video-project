@@ -9,7 +9,7 @@ import com.video.model.Video;
 
 @Repository
 public interface VideoRepository extends JpaRepository<Video, Long> {
-	List<Video> findByAvailable(boolean available);
+	 List<Video> findByAvailableTrue();
 }
 
 

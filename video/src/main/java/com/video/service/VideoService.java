@@ -10,7 +10,7 @@ public interface VideoService {
 	
 	Video updateVideo(Long id, Video video);
 	
-	void deleteVideo(Long id);
+	void deleteVideo(Long id) throws Exception;
 	
 	List<Video> findAll();
 }

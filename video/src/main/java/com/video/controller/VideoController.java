@@ -24,28 +24,41 @@ public class VideoController {
     @Autowired
     private VideoService videoService;
 
-    @GetMapping
-    public List<Video> findAll() {
-        return videoService.findAll();
-    }
-
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addVideo(@RequestBody Video video) {
         return ResponseEntity.ok(videoService.saveVideo(video));
     }
 
-    @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> updateVideo(@PathVariable Long id, @RequestBody Video video) {
-        return ResponseEntity.ok(videoService.updateVideo(id, video));
+
+    @GetMapping
+    public ResponseEntity<List<Video>> findAll() {
+        return ResponseEntity.ok(videoService.findAll());
     }
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/available")
+    public ResponseEntity<List<Video>> getAvailableVideos() {
+        return ResponseEntity.ok(videoService.findAll());
+    }
+
+    @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<?> deleteVideo(@PathVariable Long id) {
-        videoService.deleteVideo(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Video> createVideo(@RequestBody Video Video) {
+        return ResponseEntity.ok(videoService.saveVideo(Video));
+    }
+
+    @PutMapping("/{videoId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Video> updateVideo(@PathVariable Long videoId,
+                                                @RequestBody Video Video) {
+        return ResponseEntity.ok(videoService.updateVideo(videoId, Video));
+    }
+
+    @DeleteMapping("/{videoId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteVideo(@PathVariable Long videoId) throws Exception {
+        videoService.deleteVideo(videoId);
+        return ResponseEntity.ok("Video deleted successfully");
     }
 }
 

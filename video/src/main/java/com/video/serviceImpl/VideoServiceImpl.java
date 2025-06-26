@@ -20,28 +20,54 @@ public class VideoServiceImpl implements VideoService {
 	@Autowired
 	private VideoRepository videoRepository;
 
-	public List<Video> findAll() {
-		return videoRepository.findByAvailable(true);
-	}
+    public List<Video> getAllVideos() {
+        return videoRepository.findAll();
+    }
 
-	public Video saveVideo(Video video) {
-		return videoRepository.save(video);
-	}
+    public List<Video> findAll() {
+        return videoRepository.findByAvailableTrue();
+    }
 
-	public Video updateVideo(Long id, Video updatedVideo) {
-		Video video = videoRepository.findById(id)
-				.orElseThrow(() -> new RuntimeException("Video not found"));
-		video.setTitle(updatedVideo.getTitle());
-		video.setDirector(updatedVideo.getDirector());
-		video.setGenre(updatedVideo.getGenre());
-		video.setAvailable(updatedVideo.isAvailable());
-		return videoRepository.save(video);
-	}
+    public Video saveVideo(Video dto) {
+        Video saved = videoRepository.save(dto);
+        return saved;
+    }
 
-	public void deleteVideo(Long id) {
-		if (!videoRepository.existsById(id)) throw new RuntimeException("Video not found");
-		videoRepository.deleteById(id);
-	}
+    public Video updateVideo(Long id, Video dto) {
+        Video video =null;
+		try {
+			video = videoRepository.findById(id)
+			        .orElseThrow(() -> new Exception("Video not found"));
+			video.setTitle(dto.getTitle());
+	        video.setDirector(dto.getDirector());
+	        video.setGenre(dto.getGenre());
+	        video.setAvailable(dto.isAvailable());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        return videoRepository.save(video);
+    }
+
+    public void deleteVideo(Long id) throws Exception {
+        if (!videoRepository.existsById(id)) {
+            throw new Exception("Video not found");
+        }
+        videoRepository.deleteById(id);
+    }
+
+    public Video getVideoById(Long id) {
+    	Video video = null;
+    	try {
+    		video = videoRepository.findById(id)
+			        .orElseThrow(() -> new Exception("Video not found"));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return video;
+    }
 
 }
 

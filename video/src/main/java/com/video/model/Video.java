@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Builder;
 
 /**
  * 
@@ -13,6 +14,7 @@ import jakarta.persistence.Table;
  */
 @Entity
 @Table(name= "videos")
+@Builder
 public class Video {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +23,7 @@ public class Video {
     private String director;
     private String genre;
     private boolean available = true;
+    
 	public Long getId() {
 		return id;
 	}
